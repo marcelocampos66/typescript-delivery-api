@@ -5,13 +5,14 @@ import { Server } from 'socket.io'
 import http from 'http'
 import path from 'path';
 import { DefaultEventsMap } from 'socket.io/dist/typed-events';
+import errorMiddleware from '../middlewares/errorMiddleware';
 
 class App {
   public app: express.Application;
   public port: number;
   public httpServer: http.Server;
   public io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>;
-  
+
   constructor(port: number) {
     this.app = express();
     this.httpServer = http.createServer(this.app);
@@ -43,18 +44,18 @@ class App {
   }
 
   private handleErrors() {
-    // this.app.use();
+    this.app.use(errorMiddleware);
   }
 
   public startServer() {
     this.app.listen(this.port, () => {
-      console.log(`API online on port: ${this.port}`);
+      console.log(`🔥 API online on port: ${this.port} 🔥`);
     });
   }
 
   public startHttpServer() {
     this.httpServer.listen(this.port, () => {
-      console.log(`Http server online on port: ${this.port}`);
+      console.log(`🔥 Http server online on port: ${this.port} 🔥`);
     });
   }
 
