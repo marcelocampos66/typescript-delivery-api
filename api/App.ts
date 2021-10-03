@@ -6,16 +6,19 @@ import http from 'http'
 import path from 'path';
 import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 import errorMiddleware from '../middlewares/errorMiddleware';
+import { IControllers } from '../@Types/Type';
 
 class App {
   public app: express.Application;
   public port: number;
   public httpServer: http.Server;
+  private controllers: IControllers;
   public io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>;
 
-  constructor(port: number) {
+  constructor(port: number, controllers: IControllers) {
     this.app = express();
     this.httpServer = http.createServer(this.app);
+    this.controllers = controllers;
     this.port = port;
     this.io = new Server(this.httpServer, {
       cors: {
@@ -26,6 +29,7 @@ class App {
     this.initializeMiddlewares();
     this.callSockets();
     this.callRoutes();
+    this.useImages();
     this.handleErrors();
   }
 
@@ -40,7 +44,11 @@ class App {
   }
 
   private callRoutes() {
-    // routes...
+    this.app.use('/users', this.controllers.users.router);
+  }
+
+  private useImages() {
+    this.app.use('/images', express.static(path.join(__dirname, '..', 'images')));
   }
 
   private handleErrors() {
