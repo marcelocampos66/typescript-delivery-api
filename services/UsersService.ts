@@ -54,6 +54,12 @@ export class UsersService {
     return users;
   }
 
+  public async getAllSellers() {
+    const userRepository = getRepository(User);
+    const sellers = await userRepository.find({ where: { role: 'seller' } });
+    return sellers;
+  }
+
   public async deleteUser(id: number) {
     const userRepository = getRepository(User);
     const result = await userRepository.delete(id);

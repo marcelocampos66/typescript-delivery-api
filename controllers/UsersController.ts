@@ -3,14 +3,14 @@ import Middlewares from '../middlewares/Middlewares';
 import { TUsersService } from '../@Types/Type';
 
 class UsersController extends Middlewares {
-  router: express.Router;
-  service: TUsersService;
+  public router: express.Router;
+  private service: TUsersService;
 
   constructor(service: TUsersService) {
     super();
     this.router = express.Router();
-    this.initializeRoutes();
     this.service = service;
+    this.initializeRoutes();
   }
 
   private initializeRoutes() {
@@ -26,6 +26,10 @@ class UsersController extends Middlewares {
     this.router.get('/', [
       this.validateJWT,
       this.getAllUsers,
+    ]);
+    this.router.get('/sellers', [
+      this.validateJWT,
+      this.getAllSellers,
     ]);
     this.router.delete('/:id', [
       this.validateJWT,
@@ -65,6 +69,15 @@ class UsersController extends Middlewares {
     _next: NextFunction,
   ) => {
     const result = await this.service.getAllUsers();
+    return res.status(200).json(result);
+  };
+
+  private getAllSellers = async (
+    _req: Request,
+    res: Response,
+    _next: NextFunction,
+  ) => {
+    const result = await this.service.getAllSellers();
     return res.status(200).json(result);
   };
 
