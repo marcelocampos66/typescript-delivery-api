@@ -1,9 +1,12 @@
+import 'dotenv/config';
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { getRepository } from 'typeorm';
+import { getRepository, getConnection } from 'typeorm';
 import Helpers from '../helpers/Helpers';
 import { User } from '../database/models/User';
 import { ITokenPayload } from '../@Types/Type';
+import { Product } from '../database/models/Product';
+import { products, users } from '../database/querybuilder/constants';
 
 class Middlewares {
   private helpers: Helpers;
@@ -33,6 +36,26 @@ class Middlewares {
     } catch (e) {
       return res.status(401).json({ message: 'Expired or invalid token' });
     }
+  };
+
+  public populateDB = async (
+    _req: Request,
+    res: Response,
+    _next: NextFunction,
+  ) => {
+    await getConnection()
+      .createQueryBuilder()
+      .insert()
+      .into(Product)
+      .values(products)
+      .execute();
+    await getConnection()
+      .createQueryBuilder()
+      .insert()
+      .into(User)
+      .values(users)
+      .execute();
+    res.status(200).json({ message: 'DataBase succesfully populated!' });
   };
 
   public verifyUserExists = async (

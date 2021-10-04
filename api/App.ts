@@ -44,7 +44,9 @@ class App {
   }
 
   private callRoutes() {
+    this.app.get('/populate', this.controllers.populate.router);
     this.app.use('/users', this.controllers.users.router);
+    this.app.use('/products', this.controllers.products.router);
   }
 
   private useImages() {
