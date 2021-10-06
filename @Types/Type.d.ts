@@ -48,14 +48,14 @@ interface IOrderData {
   userId: number;
 }
 
-interface ICartItem {
-  id: number;
-  name: string;
-  quantity: number;
-  price: string;
-}
-
 interface ISaleInfos {
   orderData: IOrderData;
   listItens: Array<ICartItem>;
+}
+
+interface ICartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
 }

@@ -40,10 +40,6 @@ export class Sale {
   @Column()
   status: string;
 
-  // @ManyToMany(() => Product, (products: Product) => products.id)
-  // @JoinTable()
-  // products: Array<Product>;
-
   @OneToMany(() => SaleProduct, (saleProduct: SaleProduct) => saleProduct.sale)
   saleProduct: SaleProduct[];
 

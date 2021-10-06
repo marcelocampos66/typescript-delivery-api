@@ -21,4 +21,7 @@ export class Product {
   @Column()
   url_image: string;
 
+  @OneToMany(() => SaleProduct, (saleProduct: SaleProduct) => saleProduct.product)
+  saleProduct: SaleProduct[];
+
 }

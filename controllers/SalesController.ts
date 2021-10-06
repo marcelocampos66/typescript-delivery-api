@@ -18,6 +18,10 @@ class SalesController extends Middlewares {
       this.validateJWT,
       this.registerSale,
     ]);
+    this.router.get('/', [
+      this.validateJWT,
+      this.getAllSalesFromUser,
+    ]);
     this.router.get('/:id', [
       this.validateJWT,
       this.getSale,
@@ -32,6 +36,16 @@ class SalesController extends Middlewares {
     const { body } = req;
     const { orderData, listItens } = body as ISaleInfos;
     const result = await this.service.registerSale({ orderData, listItens });
+    return res.status(201).json(result);
+  };
+
+  private getAllSalesFromUser = async (
+    req: Request,
+    res: Response,
+    _next: NextFunction,
+  ) => {
+    const { payload: { id } } = req;
+    const result = await this.service.getAllSalesFromUser(id);
     return res.status(201).json(result);
   };
 

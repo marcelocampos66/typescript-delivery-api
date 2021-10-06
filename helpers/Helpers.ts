@@ -2,10 +2,9 @@ import 'dotenv/config';
 import joi from 'joi';
 import jwt from 'jsonwebtoken';
 import md5 from 'md5';
-import { getRepository } from "typeorm";
 import { User } from '../database/models/User';
-import { Product } from '../database/models/Product';
-import { ICartItem, ICredentials, IOrderData, IUser } from '../@Types/Type';
+import { ICartItem, ICredentials, IUser } from '../@Types/Type';
+import { Sale } from '../database/models/Sale';
 
 class Helpers {
   private secret: jwt.Secret;
@@ -45,23 +44,10 @@ class Helpers {
     return products.map(({ id }) => id);
   }
 
-  public async saleStructure(orderData: IOrderData) {
-    const userRepository = getRepository(User);
-    const saleUser = await userRepository.findOne(
-      { where: { id: orderData.userId } }
-    );
-    const saleSeller = await userRepository.findOne(
-      { where: { id: orderData.sellerId } }
-    );
-    return ({
-      total_price: orderData.totalCart,
-      delivery_address: orderData.address,
-      delivery_number: orderData.addressNumber,
-      user: saleUser,
-      seller: saleSeller,
-      sale_date: (new Date).toLocaleString(),
-      status: 'Pending',
-    });
+  public formatSale(sale: Sale, products: Array<ICartItem>) {
+    const { saleProduct, ...necessaryInfos } = sale;
+    const newSale = { ...necessaryInfos, products };
+    return newSale;
   }
 
 }
