@@ -3,7 +3,8 @@ import joi from 'joi';
 import jwt from 'jsonwebtoken';
 import md5 from 'md5';
 import { User } from '../database/models/User';
-import { ICredentials, IUser } from '../@Types/Type';
+import { ICartItem, ICredentials, IUser } from '../@Types/Type';
+import { Sale } from '../database/models/Sale';
 
 class Helpers {
   private secret: jwt.Secret;
@@ -38,6 +39,16 @@ class Helpers {
       password: joi.string().min(6).required(),
     }).validate(credentials)
   );
+
+  public getProductsIds(products: Array<ICartItem>) {
+    return products.map(({ id }) => id);
+  }
+
+  public formatSale(sale: Sale, products: Array<ICartItem>) {
+    const { saleProduct, ...necessaryInfos } = sale;
+    const newSale = { ...necessaryInfos, products };
+    return newSale;
+  }
 
 }
 

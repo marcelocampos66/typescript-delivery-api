@@ -44,9 +44,10 @@ class App {
   }
 
   private callRoutes() {
-    this.app.get('/populate', this.controllers.populate.router);
+    this.app.use('/populate', this.controllers.populate.router);
     this.app.use('/users', this.controllers.users.router);
     this.app.use('/products', this.controllers.products.router);
+    this.app.use('/sales', this.controllers.sales.router);
   }
 
   private useImages() {
