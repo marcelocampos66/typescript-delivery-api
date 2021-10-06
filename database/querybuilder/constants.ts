@@ -4,18 +4,22 @@ const BASE_URL = 'http://localhost:'
 
 export const users = [
   {
-    // id: 1,
     name: 'Odin Borson',
     email: 'odin.borson@email.com',
     password: 'c8837b23ff8aaa8a2dde915473ce0991',
     role: 'administrator',
   },
   {
-    // id: 2,
     name: 'Thor Odinson',
     email: 'thor.odinson@email.com',
     password: 'c8837b23ff8aaa8a2dde915473ce0991',
     role: 'seller',
+  },
+  {
+    name: 'Magni Thorson',
+    email: 'magni.thorson@email.com',
+    password: 'c8837b23ff8aaa8a2dde915473ce0991',
+    role: 'customer',
   },
 ]
 

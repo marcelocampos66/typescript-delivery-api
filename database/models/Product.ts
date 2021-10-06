@@ -1,7 +1,10 @@
 import { Entity,
   PrimaryGeneratedColumn,
   Column,
+  OneToMany,
+  JoinColumn,
 } from "typeorm";
+import { SaleProduct } from "./SaleProduct";
 
 @Entity()
 export class Product {
@@ -12,7 +15,7 @@ export class Product {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ type: 'float' })
   price: number;
 
   @Column()
