@@ -4,7 +4,7 @@ import { Sale } from "../database/models/Sale";
 import { Product } from "../database/models/Product";
 import { User } from "../database/models/User";
 import { SaleProduct } from "../database/models/SaleProduct";
-import { ICartItem, ISaleInfos } from "../@Types/Type";
+import { ICartItem, IFormatedSale, ISaleInfos } from "../@Types/Type";
 
 export class SalesService {
   private helpers: Helpers;
@@ -59,7 +59,17 @@ export class SalesService {
     const userSales = sales.filter((sale) => (
       sale.user.id === id || sale.seller.id === id
     ));
-    return userSales;
+    const result = userSales.map((sale) => {
+      const { user, seller } = sale;
+      const userWithoutPass = this.helpers.removePassword(user);
+      const sellerWithoutPass = this.helpers.removePassword(seller);
+      return {
+        ...sale,
+        user: userWithoutPass,
+        seller: sellerWithoutPass,
+      }
+    });
+    return result;
   }
 
   public async getProductsFromSale(saleProduct: Array<SaleProduct>) {
@@ -84,7 +94,15 @@ export class SalesService {
     );
     if (!sale) return;
     const products = await this.getProductsFromSale(sale.saleProduct);
-    const formatedSale = this.helpers.formatSale(sale, products);
+    const saleWithProducts = this.helpers.formatSale(sale, products);
+    const { user, seller } = saleWithProducts;
+    const userWithoutPass = this.helpers.removePassword(user);
+    const sellerWithoutPass = this.helpers.removePassword(seller);
+    const formatedSale: IFormatedSale = {
+      ...saleWithProducts,
+      user: userWithoutPass,
+      seller: sellerWithoutPass,
+    }
     return formatedSale;
   }
 

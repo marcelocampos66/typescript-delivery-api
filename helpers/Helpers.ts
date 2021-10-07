@@ -3,8 +3,8 @@ import joi from 'joi';
 import jwt from 'jsonwebtoken';
 import md5 from 'md5';
 import { User } from '../database/models/User';
-import { ICartItem, ICredentials, IUser } from '../@Types/Type';
 import { Sale } from '../database/models/Sale';
+import { ICartItem, ICredentials, IUser } from '../@Types/Type';
 
 class Helpers {
   private secret: jwt.Secret;
@@ -48,6 +48,11 @@ class Helpers {
     const { saleProduct, ...necessaryInfos } = sale;
     const newSale = { ...necessaryInfos, products };
     return newSale;
+  }
+
+  public removePassword(user: User) {
+    const { password, ...necessaryInfos } = user;
+    return { ...necessaryInfos };
   }
 
 }

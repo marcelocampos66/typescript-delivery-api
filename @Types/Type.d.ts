@@ -59,3 +59,22 @@ interface ICartItem {
   price: number;
   quantity: number;
 }
+
+interface IUserWithoutPass {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+}
+
+interface IFormatedSale {
+  products: Array<ICartItem>;
+  id: number;
+  user: IUserWithoutPass;
+  seller: IUserWithoutPass;
+  total_price: number;
+  delivery_address: string;
+  delivery_number: number;
+  sale_date: string;
+  status: string;
+}
