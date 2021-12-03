@@ -106,6 +106,12 @@ export class SalesService {
     return formatedSale;
   }
 
+  public async updateSaleStatus(id: number, status: string) {
+    const saleRepository = getRepository(Sale);
+    await saleRepository.update(id, { status });
+    return saleRepository.findOne({ id });
+  }
+
 }
 
 export default new SalesService();

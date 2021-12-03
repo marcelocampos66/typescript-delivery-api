@@ -6,6 +6,7 @@ import http from 'http'
 import path from 'path';
 import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 import errorMiddleware from '../middlewares/errorMiddleware';
+import deliverySocket from '../sockets/deliverySocket';
 import { IControllers } from '../@Types/Type';
 
 class App {
@@ -23,7 +24,7 @@ class App {
     this.io = new Server(this.httpServer, {
       cors: {
         origin: '*',
-        methods: ['GET', 'POST'],
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
       },
     });
     this.initializeMiddlewares();
@@ -40,7 +41,7 @@ class App {
   }
 
   private callSockets() {
-    // sockets ...
+    deliverySocket(this.io);
   }
 
   private callRoutes() {

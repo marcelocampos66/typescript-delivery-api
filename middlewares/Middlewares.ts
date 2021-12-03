@@ -12,8 +12,8 @@ class Middlewares {
   private helpers: Helpers;
   private secret: jwt.Secret;
 
-  constructor() {
-    this.helpers = new Helpers();
+  constructor(helpers: Helpers) {
+    this.helpers = helpers;
     this.secret = process.env.JWT_SECRET as jwt.Secret;
   }
 
