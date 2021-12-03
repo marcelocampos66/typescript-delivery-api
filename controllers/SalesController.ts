@@ -1,13 +1,14 @@
 import express, { Request, Response, NextFunction } from 'express';
 import Middlewares from '../middlewares/Middlewares';
+import Helpers from '../helpers/Helpers';
 import { ISaleInfos, TSalesService } from '../@Types/Type';
 
 class SalesController extends Middlewares {
   public router: express.Router;
   private service: TSalesService;
 
-  constructor(service: TSalesService) {
-    super();
+  constructor(service: TSalesService, helpers: Helpers) {
+    super(helpers);
     this.router = express.Router();
     this.service = service;
     this.initializeRoutes();
@@ -25,6 +26,9 @@ class SalesController extends Middlewares {
     this.router.get('/:id', [
       this.validateJWT,
       this.getSale,
+    ]);
+    this.router.put('/:id', [
+      this.updateSaleStatus,
     ]);
   }
 
@@ -61,6 +65,16 @@ class SalesController extends Middlewares {
     }
     return res.status(200).json(result);
   };
+
+  private updateSaleStatus = async (
+    req: Request,
+    res: Response,
+    _next: NextFunction,
+  ) => {
+    const { params: { id }, body: { status } } = req;
+    const result = await this.service.updateSaleStatus(Number(id), status);
+    return res.status(200).json(result);
+  }
 
 }
 

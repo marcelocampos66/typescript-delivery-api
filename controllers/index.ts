@@ -5,10 +5,11 @@ import SalesController from './SalesController';
 import UsersService from '../services/UsersService';
 import ProductsService from '../services/ProductsService';
 import SalesService from '../services/SalesService';
+import Helpers from '../helpers/Helpers';
 
 export default {
-  populate: new PopulateController(),
-  users: new UsersController(UsersService),
-  products: new ProductsController(ProductsService),
-  sales: new SalesController(SalesService),
+  populate: new PopulateController(new Helpers()),
+  users: new UsersController(UsersService, new Helpers()),
+  products: new ProductsController(ProductsService, new Helpers()),
+  sales: new SalesController(SalesService, new Helpers()),
 };

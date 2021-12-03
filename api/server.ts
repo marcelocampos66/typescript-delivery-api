@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import 'reflect-metadata';
-import typeorm, { createConnection } from 'typeorm';
+import { createConnection } from 'typeorm';
 import config from '../ormconfig';
 import App from './App';
 import controllers from '../controllers';
